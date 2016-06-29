@@ -1,0 +1,9 @@
+Añadir a la aplicación, con el el carrusel de citas editable, la funcionalidad de guardar la base de datos serializada en JSON en localStorage, de forma que al cargar la aplicación en un navegador, está deberá detectar si existe una base de datos de citas almacenada en localStorage y si es así deberá presentar está en vez de las citas de la galería incluidas en el código de la aplicación.
+
+De esta forma los cambios realizados a la base de datos inicial de citas (edición, añadir o borrado)   quedarán guardados en localStorage y estarán disponibles cuando se vuelva a abrir la aplicación en ese mismo navegador.
+
+Añadir además un botón que regenere las citas iniciales de la aplicación, eliminando los cambios introducidos. El botón debe pedir confirmación (con la funcion confirm("msj") o con un componente/widget dialogo de jQuery UI) y avisar en el mensaje ("msj") del pop-up de lo que va a hacer, para que el usuario sea consciente de que borra todos los cambios.
+
+Este nuevo botón deberá colocarse en una posición que se relacione con la base de datos de citas y no con una cita en particular. Buscar un icono SVG adecuado en Internet.
+
+Subir la nueva aplicación de citas a la cuenta de neocities.org

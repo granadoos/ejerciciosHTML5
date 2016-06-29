@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head><title>Event Example</title><meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="js/zepto.min.js"></script>
+  <script type="text/javascript" src="js/touch.js"></script>
+<style>
+
+*{
+-webkit-touch-callout: none; /* anula el efecto visual del touch prolongado sobre el objeto */
+user-select: none; /* user-select, hace el objeto no seleccionable */
+-webkit-tap-highlight-color: rgba(0,0,0,0); /* anula el feedback de color al hacer tap en un link */
+-webkit-tap-highlight-color: transparent; /* similar anterior en algunos android */
+}
+
+#reloj  , #acciones{
+    background-color: white;
+    user-select: none;
+    float: left;
+	  padding: 5px;
+	  margin-right: 5px;
+	  margin-bottom: 5px;
+	  border: 1px solid #666;
+    height: 100px;
+    width: 300px;
+    }
+
+    #acciones{
+      background-color: orange;
+    }
+
+  .clear {
+	     clear: both;
+  }
+
+</style>
+
+<script type="text/javascript">
+  $(function(){
+    var tiempos=[];
+    var t, cl = $("#crono");
+
+    function mostrar()  { cl.html((+cl.html() + 0.1).toFixed(1)); };
+    function arrancar() { t=setInterval(mostrar, 100);};
+    function parar(){
+        clearInterval(t);
+        t=undefined;
+        tiempos.push(cl.text());
+        cargarTiempos();
+    };
+    function cambiar()  { if (!t) arrancar(); else parar(); };
+    function inicializar_swipe(){
+      if (t) {parar();}
+      cl.html("0.0");
+      tiempos.length=0;
+      cargarTiempos();
+    }
+
+    function cargarTiempos(){
+      $("#tiempos").html("")
+      tiempos.forEach(function(elem,index){
+            $("#tiempos").append((+index+1)+" - Parado en: "+elem+"<br>");
+      });
+    }
+
+    $("#acciones").on('click', cambiar);
+    $("#acciones").on('swipe', inicializar_swipe);
+
+    $("#cambiar").on('click', cambiar);
+    $("#inicializar").on('click', inicializar_swipe);
+
+  });
+
+
+</script>
+</head>
+<body>
+  <div class="container">
+  <nav class="navbar navbar-inverse ">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#miMenu">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">MOOC</a>
+      </div>
+      <div class="collapse navbar-collapse" id="miMenu">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">INICIO</a></li>
+          <li><a href="ejercicio_puzzle.html">PUZZLE</a></li>
+          <li  class="active"><a href="ejercicio_crono.html">CRONO</a></li>
+          <li><a href="ejercicio_calculadora.html">CALCULADORA</a></li>
+          <li><a href="ejercicio_citas.html">CITAS</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="ejercicio">
+
+
+    <h2>Cronómetro</h2>
+    <ul>
+      <li>Pulsa sobre recuadro naranja para iniciar/parar</li>
+      <li>Hacer swith sobre el recuadro naranja para poner a 0.</li>
+      <li>Cada vez que paremos el cronometro se registrará el tiempo.</li>
+    </ul>
+    <div id="reloj">
+      <h2><span id="crono" > 0.0 </span> segundos </h2>
+    </div>
+    <div id="acciones">
+    </div>
+    <div class="clear"> </div>
+     <div >
+    	<button type="button" id="cambiar"> arrancar/parar </button>
+    	<button type="button" id="inicializar">  inicializar </button>
+    </div>
+    <div contentEditable="true" id="listadoTiempos">
+      <h2>Listado de Tiempos</h2>
+      <div contentEditable="true" id="tiempos">
+
+      </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

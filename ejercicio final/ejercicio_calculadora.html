@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Calculadora</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+    * { user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
+        margin:0;
+        padding:0;
+    }
+
+
+      #entrada,#valor_memoria{
+        height: 25px;
+        padding: 4px;
+        margin: 2px;
+        font-size: 16px;
+        margin: 4px;
+        width: 250px;
+        border-color: gray;
+        border-style: solid;
+        border-width: thin;
+      }
+        #entrada{
+          background-color: white;
+        }
+      #valor_memoria{
+        background-color: silver;
+      }
+
+
+      #numeros button{
+        width: 75px;
+        margin: 4px;
+        font-size: 20px;
+      }
+
+      #memoria button {
+        margin-left: 4px;
+      }
+
+      #unitario button, #binaria button {
+        width: 40px;
+        margin: 4px;
+      }
+      #array button{
+        width: 78px;
+      }
+
+    #calculo button{
+        width: 250px;
+        margin: 4px;
+      }
+      section{
+        padding: 5px;
+        background-color: silver;
+        width: 269px;
+        border-color: gray;
+        border-style: solid;
+        border-width: thin;
+      }
+
+    </style>
+    <!-- script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script-->
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+    $(function(){
+      var acumulador=0;
+      var operacion="";
+
+      function tecleo(){
+
+        var entrada=$("#entrada");
+        var num=$(this).html();
+        if (num==="." && entrada.html()===""){
+          entrada.html(entrada.html()+"0.");
+        }else if(entrada.html()==="Operación no válida")  {
+          entrada.html(num);
+        }else{
+          entrada.html(entrada.html()+num);
+        }
+      }
+
+      function limpiar(){
+        var entrada=$("#entrada");
+        acumulador=0;
+        operacion="";
+        entrada.html("");
+        entrada.focus();
+      }
+
+      function elevado(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada)){
+            resultado=entrada*entrada;
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+
+      }
+      function inverso(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada) && entrada!==0){
+          resultado= 1/entrada;
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function raiz(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada)){
+          resultado=Math.sqrt(entrada);
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function entero(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada)){
+          resultado=(entrada>=0) ? Math.floor(entrada) :-Math.ceil(entrada);
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function potencia2(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada)){
+          resultado=1;
+          for(var i=0;i<entrada;i++){
+            resultado*=2;
+          }
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function factorialN(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada)){
+          resultado=1;
+          for(var i=entrada;i>0;i--){
+            resultado*=i;
+          }
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function masmenos(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!=="" && !isNaN(entrada)){
+          resultado=-1 * +entrada;
+        }
+
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function operacionBinaria(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+        var operador=$(this).attr("id");
+        acumulador=0;
+        operacion="";
+        if (entrada!=="" && !isNaN(entrada)){
+          acumulador= +entrada;
+          operacion=operador;
+          resultado="";
+        }
+        $("#entrada").html(resultado);
+        $("#entrada").focus();
+      }
+
+      function calcular(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (entrada!=="" && !isNaN(entrada) && operacion!==""){
+          if(operacion==="suma"){
+            resultado= acumulador+ +entrada;
+          }else if (operacion==="resta"){
+            resultado=acumulador- +entrada;
+          }else if (operacion==="multiplicar"){
+              resultado=acumulador* +entrada;
+          }else if (operacion==="dividir" && entrada!=0){
+            resultado=acumulador/ +entrada;
+          }else if (operacion==="elevar"){
+            resultado=Math.pow(acumulador,entrada);
+          }
+
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      //Array
+      function sumatorioX(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!==""){
+          resultado=0;
+          entrada.split(",").forEach(function(valor){
+            if (!isNaN(valor) && resultado!=="Operación no válida"){
+              resultado+= +valor;
+            }else{
+              resultado="Operación no válida";
+            }
+          })
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      function productoX(){
+        var resultado="Operación no válida";
+        var entrada=$("#entrada").html();
+
+        if (operacion==="" && entrada!==""){
+          resultado=1;
+          entrada.split(",").forEach(function(valor){
+            if (!isNaN(valor) && resultado!=="Operación no válida"){
+              resultado*= +valor;
+            }else{
+              resultado="Operación no válida";
+            }
+          })
+        }
+        acumulador=0;
+        operacion="";
+        $("#entrada").html(resultado);
+      }
+
+      //Memoria
+      function toMemoria(){
+        $("#valor_memoria").html(  $("#entrada").html());
+      }
+      function fromMemoria(){
+        $("#entrada").html(  $("#valor_memoria").html());
+      }
+      function deleteMemoria(){
+        $("#valor_memoria").html("");
+      }
+
+      //Entrada
+      $("#entrada").draggable({revert: "invalid",  helper:"clone"});
+      $("#entrada").droppable(
+        {
+          activeClass:"act",
+          drop:function(event, ui){
+            if (ui.draggable.attr("id")=="valor_memoria")
+              fromMemoria();
+          }
+
+        }
+      );
+      $("#valor_memoria").draggable({revert: "invalid",  helper:"clone"});
+      $("#valor_memoria").droppable(
+        {
+          activeClass:"act",
+          drop:function(event, ui){
+            if (ui.draggable.attr("id")==="entrada")
+              toMemoria();
+          }
+        }
+      );
+      //Memoria
+      $("#ToM").on("click",toMemoria);
+      $("#FromM").on("click",fromMemoria);
+      $("#DeleteM").on("click",deleteMemoria);
+      //Numeros
+      $("#punto").on("click",tecleo);
+      $("#cero").on("click",tecleo);
+      $("#uno").on("click",tecleo);
+      $("#dos").on("click",tecleo);
+      $("#tres").on("click",tecleo);
+      $("#cuatro").on("click",tecleo);
+      $("#cinco").on("click",tecleo);
+      $("#seis").on("click",tecleo);
+      $("#siete").on("click",tecleo);
+      $("#ocho").on("click",tecleo);
+      $("#nueve").on("click",tecleo);
+      //Operaciones unitarias
+      $("#elevado").on("click",elevado);
+      $("#inverso").on("click",inverso);
+      $("#raiz").on("click",raiz);
+      $("#entero").on("click",entero);
+      $("#limpiar").on("click",limpiar);
+      $("#potencia2").on("click",potencia2);
+      $("#factorialN").on("click",factorialN);
+      $("#masmenos").on("click",masmenos);
+
+      //Operaciones Binarias
+      $("#suma").on("click",operacionBinaria);
+      $("#resta").on("click",operacionBinaria);
+      $("#multiplicar").on("click",operacionBinaria);
+      $("#dividir").on("click",operacionBinaria);
+      $("#elevar").on("click",operacionBinaria);
+      //array
+      $("#sumatorioX").on("click",sumatorioX);
+      $("#productoX").on("click",productoX);
+      $("#coma").on("click",tecleo);
+
+      $("#calcular").on("click",calcular);
+
+
+    });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+    <nav class="navbar navbar-inverse ">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#miMenu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">MOOC</a>
+        </div>
+        <div class="collapse navbar-collapse" id="miMenu">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">INICIO</a></li>
+            <li ><a href="ejercicio_puzzle.html">PUZZLE</a></li>
+            <li><a href="ejercicio_crono.html">CRONO</a></li>
+            <li class="active"><a href="ejercicio_calculadora.html">CALCULADORA</a></li>
+            <li><a href="ejercicio_citas.html">CITAS</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="ejercicio">
+          <header>
+            <h1>Calculadora</h1>
+          </header>
+          <section>
+            <div id="entrada" contentEditable="true">
+            </div>
+            <div id="memoria">
+              <button id="ToM">To Memo</button>
+              <button id="FromM">From Memo</button>
+              <button id="DeleteM">Borrar Memo</button>
+              <div id="valor_memoria" contentEditable="true">
+              </div>
+            </div>
+            <!--input type="text" id="entrada" value=""-->
+            <div id="numeros">
+              <button id="siete">7</button>
+              <button id="ocho">8</button>
+              <button id="nueve">9</button>
+            </div>
+            <div id="numeros">
+              <button id="cuatro">4</button>
+              <button id="cinco">5</button>
+              <button id="seis">6</button>
+            </div>
+            <div id="numeros">
+              <button id="uno">1</button>
+              <button id="dos">2</button>
+              <button id="tres">3</button>
+            </div>
+            <div id="numeros">
+              <button id="cero">0</button>
+              <button id="punto">.</button>
+              <button id="limpiar">C</button>
+            </div>
+
+            <div id="unitario">
+              <button id="elevado">x^2 </button>
+              <button id="inverso">1/x </button>
+              <button id="raiz">&radic;</button>
+              <button id="entero">int</button>
+              <button id="potencia2">2^n</button>
+              <button id="factorialN">n!</button>
+            <!--/div>
+            <!div id="binaria"-->
+              <button id="suma">+</button>
+              <button id="resta">-</button>
+              <button id="multiplicar">*</button>
+              <button id="dividir">/</button>
+              <button id="elevar">x^y</button>
+              <button id="masmenos">&plusmn;</button>
+
+            <!-- /div>
+            <div id="array"-->
+              <button id="sumatorioX">S(x)</button>
+              <button id="productoX">Prod</button>
+              <button id="coma">,</button>
+            </div>
+            <div id="calculo">
+              <button id="calcular">=</button>
+            </div>
+          </section>
+        </div>
+        <div class="panel-footer">Felipe Granados</div>
+      </div>
+  </body>
+</html>
